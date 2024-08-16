@@ -1,0 +1,118 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.background {
+	height: 100vh;
+	width: 100vw;
+	background: url('images/star.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.bird {
+	height: 100px;
+	width: 130px;
+	position: fixed;
+	top: 40vh;
+	left: 30vw;
+	z-index: 100;
+}
+.pipe_sprite {
+	position: fixed;
+	top: 40vh;
+	left: 100vw;
+	height: 70vh;
+	width: 6vw;
+	background: linear-gradient(grey, black);
+	border: 5px solid black;
+}
+.message {
+	position: absolute;
+	z-index: 10;
+	color: black;
+	top: 30%;
+	left: 50%;
+	font-size: 4em;
+	transform: translate(-50%, -50%);
+	text-align: center;
+}
+.messageStyle{
+	background: white;
+	padding: 30px;
+	box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+	border-radius: 5%;
+}
+.score {
+	position: fixed;
+	z-index: 10;
+	height: 10vh;
+	font-size: 10vh;
+	font-weight: 100;
+	color: white;
+	-webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: black;
+	top: 0;
+	left: 0;
+	margin: 10px;
+	font-family: Arial, Helvetica, sans-serif;
+}
+.score_val {
+	color: gold;
+	font-weight: bold;
+}
+@media only screen and (max-width: 1080px) {
+    .message{
+		font-size: 50px;
+		top: 50%;
+		white-space: nowrap;
+	}
+	.score{
+		font-size: 8vh;
+	}
+	.bird{
+		width: 120px;
+		height: 90px;
+	}
+	.pipe_sprite{
+		width: 14vw;
+	}
+}
+.btn.btn-primary {
+    display: inline-block;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff; /* Primary color for the button */
+    color: #fff; /* Text color for the button */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition effect */
+}
+
+.btn.btn-primary:hover {
+    background-color: #0056b3; /* Darker shade of primary color on hover */
+}
+
+.exit-button {
+    color: black; /* Set text color to black */
+    background-color: white; /* Set background color to white */
+    padding: 0; /* Remove padding to center text */
+    cursor: pointer; /* Change cursor to pointer */
+    font-size: 26px; /* Increase font size */
+    text-decoration: none; /* Remove underline */
+    position: fixed; /* Position fixed for top right positioning */
+    top: 20px; /* Distance from the top */
+    right: 20px; /* Distance from the right */
+    transition: none; /* Remove hover transition */
+    width: 200px; /* Set width */
+    height: 100px; /* Set height */
+    line-height: 100px; /* Center align text vertically */
+    text-align: center; /* Center align text horizontally */
+    border-radius: 10px; /* Add border radius for rounded corners */
+}
+
+

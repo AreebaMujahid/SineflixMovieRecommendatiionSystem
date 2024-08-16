@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css">
+    <!-- Link to Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Link to Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        /* Set initial zoom level */
+        zoom: 1;
+    }
+
+    .menu-item {
+        padding: 10px;
+        margin-right: 10px; /* Adjust as needed */
+        display: inline-block;
+        text-decoration: none;
+        color: white;
+        background-color: transparent;
+        border: none;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        position: relative;
+        display: inline-block;
+    }
+
+    .dropdown-content {
+        display: none;
+        position: absolute;
+        background-color: black;
+        min-width: 120px;
+        box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    .dropdown-content a {
+        color: white;
+        padding: 12px 16px;
+        text-decoration: none;
+        display: block;
+    }
+
+    .dropdown:hover .dropdown-content {
+        display: block;
+    }
+
+    .menu-item:hover {
+        background-color: transparent;
+        color: black;
+    }
+
+    .menu-text {
+        color: white; /* Set color for text */
+    }
+
+    .site-header {
+        background-color: black;
+        padding: 10px 20px; /* Adjust padding to set thickness or length */
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .navbar-text {
+        color: white;
+        font-family: Arial, sans-serif;
+        font-size: 20px;
+        padding-left: 5px;
+        font-weight: bold;
+    }
+
+    /* Settings overlay */
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5)
+        z-index: 999;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Settings content */
+    .settings-content {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 400px; /* Increased width */
+        height: 500px; /* Increased height */
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Close button */
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        cursor: pointer;
+    }
+
+    h1 {
+        text-align: center;
+    }
+
+    button {
+        padding: 8px 16px;
+        margin: 5px;
+        cursor: pointer;
+    }
+
+    select {
+        width: 100%;
+        padding: 8px;
+        margin-bottom: 10px;
+    }
+
+    hr {
+        margin: 10px 0;
+    }
+
+
+</style>
+<body class="loggedin">
+<nav class="site-header sticky-top">
+    <div class="container d-flex justify-content-between align-items-center">
+        <div class="navbar-text">
+            Movie Recommendation System
+        </div>
+        <div class="d-flex align-items-center">
+            <a class="py-2 menu-item" href="{{ url_for('home') }}"><i class="fas fa-home icon"></i> <span class="menu-text">Home</span></a>
+            <div class="dropdown">
+                <button class="dropdown-button py-2 menu-item">
+                    <i class="fas fa-gamepad fa-sm icon"></i> <span class="menu-text">Mini Games</span>
+                </button>
+                <div class="dropdown-content">
+                    <a href="{{ url_for('wordle') }}">Wordle</a>
+                    <a href="{{ url_for('flappy_bird') }}">Aircraft</a>
+                </div>
+            </div>
+            <a href="{{ url_for('user_feedbacks') }}" class="py-2 menu-item"><i class="fas fa-comment fa-sm icon"></i> <span class="menu-text">Feedback</span></a>
+            <a class="py-2 menu-item" href="{{ url_for('profile') }}"><i class="fas fa-user-circle icon"></i> <span class="menu-text">Profile</span></a>
+        </div>
+        <div>
+            <a class="py-2 menu-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt icon"></i> <span class="menu-text">Logout</span></a>
+            <button class="py-2 menu-item" onclick="openSettings()">
+                <i class="fas fa-cog fa-sm icon"></i> <span class="menu-text">Settings</span>
+            </button>
+        </div>
+    </div>
+</nav>
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+        <div class="col-12">
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</main>
+
+<!-- Settings overlay -->
+<div id="settingsOverlay" class="overlay">
+    <div class="settings-content">
+        <span class="close" onclick="closeSettings()">&times;</span>
+        <h1>Settings</h1>
+        <p>Zoom:</p>
+        <div class="zoom-buttons">
+            <button onclick="zoomIn()">Zoom In</button>
+            <button onclick="zoomOut()">Zoom Out</button>
+        </div>
+        <hr>
+        <p>Select Wallpaper Category:</p>
+        <select id="wallpaperSelect">
+            <option value="default">Default</option>
+            <option value="superheroes">Superheroes</option>
+            <option value="action">Action</option>
+            <option value="anime">Anime</option>
+        </select>
+        <div id="slideshowContainer"></div>
+        <button onclick="applyChanges()">OK</button>
+
+    </div>
+</div>
+
+<!-- Your JavaScript -->
+<script>
+    // Define the base URL of your Flask application
+    var baseURL = "{{ url_for('static', filename='') }}"; // You need to replace '' with the name of the endpoint that serves the original background image URL
+
+    // Function to make an AJAX request to get the original background image URL
+    function getOriginalBackgroundUrl(callback) {
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", baseURL + "/get_original_background_url", true);
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    // Call the callback function with the received URL
+                    callback(xhr.responseText);
+                } else {
+                    // Handle error
+                    console.error("Failed to get original background image URL");
+                }
+            }
+        };
+        xhr.send();
+    }
+
+    // Function to open settings overlay
+    function openSettings() {
+    // Check if the settings overlay is already open
+    if (document.getElementById("settingsOverlay").style.display === "block") {
+        // If already open, close the settings overlay
+        closeSettings();
+    } else {
+        // If not open, open the settings overlay
+        document.getElementById("settingsOverlay").style.display = "block";
+    }
+}
+
+
+    // Function to close settings overlay
+    function closeSettings() {
+        document.getElementById("settingsOverlay").style.display = "none";
+    }
+
+    // Function to zoom in
+    function zoomIn() {
+        // Increase the zoom level by 10%
+        document.body.style.zoom = parseFloat(getComputedStyle(document.body).zoom) + 0.1;
+    }
+
+    // Function to zoom out
+    function zoomOut() {
+        // Decrease the zoom level by 10%
+        document.body.style.zoom = parseFloat(getComputedStyle(document.body).zoom) - 0.1;
+    }
+
+    // Function to change wallpaper
+function changeWallpaper() {
+    var wallpaperSelect = document.getElementById("wallpaperSelect");
+    var selectedCategory = wallpaperSelect.value;
+
+    // Return if default option is selected
+    if (selectedCategory === "default") {
+        return;
+    }
+
+    // Get images array based on selected category
+    var images = {
+        "superheroes": ["static/images/superhero1.jpg", "static/images/superhero2.jpeg", "static/images/superhero3.jpg"],
+        "action": ["static/images/action1.jpg", "static/images/action2.jpg", "static/images/action3.jpg"],
+        "anime": ["static/images/anime1.jpg", "static/images/anime2.jpg", "static/images/anime3.jpg"]
+    };
+
+    var wallpaperIndex = 0;
+
+    // Set interval to change wallpaper every 10 seconds
+    var intervalId = setInterval(function () {
+        // Get the next image in the array
+        var imageUrl = images[selectedCategory][wallpaperIndex];
+        // Set the background image
+        document.body.style.backgroundImage = "url('" + imageUrl + "')";
+        // Increment index or reset to 0 if it reaches the end
+        wallpaperIndex = (wallpaperIndex + 1) % images[selectedCategory].length;
+    }, 10000); // 10 seconds
+
+    // Store the interval ID so it can be cleared later if needed
+    sessionStorage.setItem("wallpaperInterval", intervalId);
+}
+clearInterval(sessionStorage.getItem("wallpaperInterval"));
+
+
+// Function to apply changes and close settings overlay
+function applyChanges() {
+    // Call the changeWallpaper() function to change the wallpaper
+    changeWallpaper();
+    // Close settings overlay
+    closeSettings();
+}
+
+
+    // Set default background image for current page
+    var defaultBackgrounds = {
+        "/": "{{ url_for('static', filename='images/image.jpg') }}", // Default background image for home page
+    "/recommendations": "{{ url_for('static', filename='images/s.jpg') }}", // Default background image for recommendations page
+    "/view_feedback": "{{ url_for('static', filename='images/r.jpg') }}", // Default background image for view_feedback page
+    "/feedbacks": "{{ url_for('static', filename='images/r.jpg') }}", // Default background image for feedbacks page
+    "/survey": "{{ url_for('static', filename='images/10.jpeg') }}", // Default background image for survey page
+    "/profile": "{{ url_for('static', filename='images/31.jpg') }}", // Default background image for profile page
+    "/processsurvey": "{{ url_for('static', filename='images/10.jpeg') }}" // Default background image for processsurvey page
+    };
+
+    var currentPath = window.location.pathname;
+    var defaultBackground = defaultBackgrounds[currentPath];
+    if (defaultBackground) {
+        document.body.style.backgroundImage = "url('" + defaultBackground + "')";
+    } else {
+        // Set a default fallback background image if no match is found
+        document.body.style.backgroundImage = "url('{{ url_for('static', filename='images/r.jpg') }}')";
+    }
+</script>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <div class="flash-messages">
+        {% for message in messages %}
+        <div class="alert alert-{{ message[1] }}">{{ message[0] | safe }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+</body>
+</html>

@@ -1,0 +1,33 @@
+/* recommendations.css */
+
+body {
+  font-family: Arial, sans-serif;
+}
+
+h2 {
+  text-align: center;
+
+}
+
+.movie-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust as needed */
+  gap: 20px; /* Add spacing between movies */
+  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  padding: 20px;
+}
+
+.movie {
+  box-sizing: border-box;
+}
+
+.movie h3 {
+  margin-bottom: 10px;
+  color: blue;
+}
+
+.movie img {
+  width: 100%; /* Make movie posters fill the container */
+  height: auto;
+  object-fit: cover; /* Ensure images maintain aspect ratio and cover the entire container */
+}

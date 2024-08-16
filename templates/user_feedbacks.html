@@ -1,0 +1,78 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Profile{% endblock %}
+  
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Feedbacks</title>
+    <style>
+        body{
+            font-family: sans-serif;
+  background-image: url("/static/images/r.jpg");
+  max-width: 100%;
+  height: 600px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+        }
+        /* Center the table */
+        .table-container {
+            margin: 0 auto; /* Set left and right margins to auto */
+            max-width: 800px; /* Set maximum width to limit table width */
+        }
+        h1{
+            text-align:center;
+            color: white;
+        }
+        /* Style the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            color: black;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h1>Your Feedbacks</h1>
+        <!-- Create a table to display feedbacks -->
+        <table>
+            <tr>
+                <!-- Table headers -->
+                <th>Movie Name</th>
+                <th>Rating</th>
+                <th>Review</th>
+                <th>Created At</th>
+            </tr>
+            <!-- Iterate through each feedback -->
+            {% for feedback in feedbacks %}
+                <tr>
+                    <!-- Display each feedback as a row -->
+                    <td>{{ feedback['movie_name'] }}</td>
+                    <td>{{ feedback['rating'] }}</td>
+                    <td>{{ feedback['review'] }}</td>
+                    <td>{{ feedback['created_at'] }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+</body>
+</html>
+{% endblock %}

@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+.question {
+    margin-bottom: 20px;
+}
+
+#content-area {
+    padding: 20px;
+    min-height: 300px;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav li {
+    display: inline-block;
+    margin-right: 20px;
+}
+
+nav a {
+    text-decoration: none;
+    color: black;
+}
+
+#settings-popup {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around; /* Distribute content evenly */
+    text-align: center;
+    z-index: 1; /* Ensure popup is above other elements */ /* Initially hidden using a class */
+    padding: 20px;
+}
+
+#settings-popup h2, #settings-popup h3 {
+    margin-bottom: 10px;
+}
+
+#settings-popup button {
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    cursor: pointer;
+}
+
+#zoom-controls {
+    display: flex;
+    justify-content: space-between;
+}
+
+#background-options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#background-options li {
+    margin-bottom: 10px;
+}
+
+.hidden {
+    display: none;
+}

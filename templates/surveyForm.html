@@ -1,0 +1,215 @@
+{% extends 'layout.html' %}
+{% block title %}Profile{% endblock %}
+
+  
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <style>
+    body {
+      font-family: sans-serif;
+      background-image: url("/static/images/10.jpeg");
+      max-width: 100%;
+      height: 600px; /* Adjust this height as needed */
+      background-size: auto; /* Change this to the desired size of the repeated background */
+      background-position: center;
+      background-repeat: repeat; /* Enable background repeat */
+      background-attachment: fixed; /* Optional: Keeps the background fixed while scrolling */
+    }
+    form {
+      border: 1px solid blue;
+      padding: 20px;
+      border-radius: 5px;
+      width: 70%; /* Set form width */
+      margin: 0 auto; /* Center the form horizontally */
+      margin-left: 5%;
+      background-color: rgb(91, 109, 124); /* Solid background color */
+      
+    }
+    h1 {
+      text-align: left;
+      height: 7px;
+      margin-top: 2px;
+    }
+    h2{
+        margin-top: 2px;
+        text-align: center;
+        color: #670e0e;
+    font-weight:bolder;
+    font-style:italic;
+    }
+    .question {
+      margin-bottom: 10px;
+      font-weight: bold;
+    }
+    .options {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 15px;
+      margin-top: auto;
+    }
+    .option-label {
+      margin-right: 15px;
+    }
+    input[type="radio"], input[type="checkbox"] {
+      margin-right: 5px;
+    }
+    input[type="text"]#favorite-movie {
+      width: 100%; /* Make the input span the full width */
+      height: 30px; /* Increase the height to show more text */
+     }
+
+  </style>
+</head>
+
+<body>
+  
+
+  
+    
+    <form id="survey-form"  method="POST" action="/processsurvey">
+      <h2>Movie Preference Survey</h2>
+      <h4 class="question">Which movie do you like to watch?</h4>
+      <select name="favorite_movie" id="favorite-movie">
+          {% for movie in movie_options %}
+              <option value="{{ movie }}">{{ movie }}</option>
+          {% endfor %}
+      </select>
+      <h4 class="question">What are your favorite movie genres? (Select all that apply)</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Action"> Action
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Adventure"> Adventure
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Animation"> Animation
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Comedy"> Comedy
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Crime"> Crime
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Documentary"> Documentary
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Drama"> Drama
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Fantasy"> Fantasy
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Family"> Family
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Foreign Language"> Foreign Language
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Horror"> Horror
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Musical"> Musical
+        </label>
+        <label class="option-label">
+          <input type="checkbox" name="favorite_genres[]" value="Mystery"> Mystery
+        </label>
+        <h4 class="question">Are there any genres you typically dislike? (Enter one genre)</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="text" name="disliked_genre" id="disliked_genre" placeholder="Enter disliked genre">
+        </label>
+      </div>
+
+      <h4 class="question">How important is a strong plot to you in a movie?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="plot_importance" value="very_important"> Very Important
+        </label>
+        <label class="option-label">
+          <input type="radio" name="plot_importance" value="somewhat_important"> Somewhat Important
+        </label>
+        <label class="option-label">
+          <input type="radio" name="plot_importance" value="not_important"> Not Important
+        </label>
+      </div>
+
+      <h4 class="question">Do you prefer movies with a lot of action or special effects, or do you favor character development and story?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="focus_preference" value="action_effects"> Action/Special Effects
+        </label>
+        <label class="option-label">
+          <input type="radio" name="focus_preference" value="character_story"> Character Development/Story
+        </label>
+        <label class="option-label">
+          <input type="radio" name="focus_preference" value="no_preference"> No Preference
+        </label>
+      </div>
+      <h4 class="question">Do you have any preferences for the level of violence or language in a movie?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="violence_language_preference" value="minimal"> Prefer movies with minimal violence and language
+        </label>
+        <label class="option-label">
+          <input type="radio" name="violence_language_preference" value="moderate"> Open to some violence and language, but not excessive
+        </label>
+        <label class="option-label">
+          <input type="radio" name="violence_language_preference" value="no_preference"> No preference
+        </label>
+      </div>
+    
+      <h4 class="question">How often do you typically watch movies?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="viewing_frequency" value="daily"> Daily
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_frequency" value="several_times_a_week"> Several times a week
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_frequency" value="once_a_week"> Once a week
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_frequency" value="few_times_a_month"> A few times a month
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_frequency" value="less_than_once_a_month"> Less than once a month
+        </label>
+        <h4 class="question">Do you prefer to watch movies in theaters, streaming services, or on DVD/Blu-ray?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="viewing_platform" value="theater"> Theater
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_platform" value="streaming"> Streaming Services
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_platform" value="dvd_bluray"> DVD/Blu-ray
+        </label>
+        <label class="option-label">
+          <input type="radio" name="viewing_platform" value="any"> Any of the above
+        </label>
+      <h4 class="question">How important is it for a movie to be critically acclaimed or have high ratings for you to enjoy it?</h4>
+      <div class="options">
+        <label class="option-label">
+          <input type="radio" name="critical_reception" value="very_important"> Very Important
+        </label>
+        <label class="option-label">
+          <input type="radio" name="critical_reception" value="somewhat_important"> Somewhat Important
+        </label>
+        </div>
+      <input type="submit" value="Submit">
+  </form>
+
+</body>
+</html>
+{% endblock %}

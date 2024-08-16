@@ -1,0 +1,83 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Profile{% endblock %}
+  
+{% block content %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Feedback for Movie</title>
+    <style>
+      body{
+        font-family: sans-serif;
+background-image: url("/static/images/r.jpg");
+max-width: 100%;
+height: 600px;
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+    }
+        /* Center the table */
+        .table-container {
+            margin: 0 auto; /* Set left and right margins to auto */
+            max-width: 800px; /* Set maximum width to limit table width */
+        }
+
+        /* Style the table */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            color: black;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+        h2{
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="table-container">
+        <h2>All Feedback for Movie: {{ movie }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Comments</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% if feedbacks %}
+                    {% for feedback in feedbacks %}
+                        <tr>
+                            <td>{{ feedback['username'] }}</td>
+                            <td>{{ feedback['review'] }}</td>
+                            <td>{{ feedback['rating'] }}</td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
+                    <tr>
+                        <td colspan="3">No feedback available for this movie.</td>
+                    </tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
+{% endblock %}

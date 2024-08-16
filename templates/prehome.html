@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Cineflix</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/prehome.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome to Movies Recommendation App</h1>
+        <h2>Your personal movie recommendation pal</h2>
+        <div>
+            <button onclick="window.location.href='{{ url_for('register') }}'">Signup</button>
+            <button onclick="window.location.href='{{ url_for('login') }}'">Login</button>
+        </div>
+    </header>
+</body>
+</html>

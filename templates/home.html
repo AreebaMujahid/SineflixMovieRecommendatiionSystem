@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Page Title</title>
+    <style>
+        
+        body {
+            font-family: sans-serif;
+            background-image: url("static/images/image.jpg");
+            max-width: 100%;
+            height: 600px;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+          }
+        .movie-recommendation-btn {
+            font-size: 20px; /* Adjust font size as needed */
+        }
+        
+        p{
+            color:white;
+        }
+
+        .centered-content {
+            text-align: center;
+            position: absolute;
+            top: 270%;
+            left: 40%;
+            transform: translate(-50%, -50%);
+        }
+        h1.h2 {
+            color: white;
+            text-align: left; /* Align the heading to the left */
+        }
+        
+    </style>
+</head>
+<body class="home-page">
+    {% extends 'layout.html' %}
+  
+    {% block title %}Home{% endblock %}
+  
+    {% block content %}
+    <div class="background-image-container">
+        <h1 class="h2" style="color: white;">Dashboard</h1>
+        <p>Welcome back, {{ username }}!</p>
+        <div class="centered-content">
+            <h1 style="color: white;">Unlimited Movies</h1>
+            <h1 style="color: white;">TV Shows & More...</h1>
+            <a href="/survey" class="movie-recommendation-btn">Find Movie Recommendation Now</a>
+        </div>
+    </div>
+    {% endblock %}
+</body>
+</html>

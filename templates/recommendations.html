@@ -1,0 +1,162 @@
+{% extends 'layout.html' %}
+  
+{% block title %}Recommendations{% endblock %}
+{% block content %}
+  
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <style>
+      body{
+        font-family: sans-serif;
+        background-image: url("/static/images/s.jpg");
+        max-width: 100%;
+        height: 800px;
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      h2 {
+        text-align: center;
+        color: white;
+      }
+
+      .movie-container {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr); /* Divide the rectangle into 5 equal parts */
+        gap: 20px; /* Add spacing between movies */
+        margin-left: 5px;
+        overflow-x: auto; /* Enable horizontal scrolling if needed */
+        padding: 20px;
+      }
+
+      .movie {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+      }
+
+      .movie img {
+        width: 100%; /* Make movie posters fill the container */
+        height: auto;
+        object-fit: cover; /* Ensure images maintain aspect ratio and cover the entire container */
+      }
+
+      .rating-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .star {
+        color: #ccc; /* Default color for stars */
+        cursor: pointer;
+      }
+
+      .star.active,
+      .star:hover {
+        color: #FFD700; /* Gold color for active/hovered stars */
+      }
+
+      .review-input {
+        width: 100%;
+        padding: 8px;
+        margin-top: 10px;
+        box-sizing: border-box;
+      }
+
+      .send-feedback-btn {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background-color: #007BFF; /* Blue color for button */
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Recommended Movies for {{ selected_movie }}</h2>
+    <div class="movie-container">
+      {% for movie, poster in recommended_data %}
+        <div class="movie" data-movie="{{ movie }}">
+          <img src="{{ poster }}" alt="Poster for {{ movie }}">
+          
+          <div class="rating-container">
+            <span class="star" onclick="setRating(1, '{{ movie }}')">&#9733;</span>
+            <span class="star" onclick="setRating(2, '{{ movie }}')">&#9733;</span>
+            <span class="star" onclick="setRating(3, '{{ movie }}')">&#9733;</span>
+            <span class="star" onclick="setRating(4, '{{ movie }}')">&#9733;</span>
+            <span class="star" onclick="setRating(5, '{{ movie }}')">&#9733;</span>
+            <input type="hidden" class="rating-value" name="rating" value="0">
+          </div>
+          <input type="text" class="review-input" name="review" placeholder="Write your review...">
+          <button class="send-feedback-btn" onclick="submitFeedback('{{ movie }}')">Send Feedback</button>
+          <button class="view-all-feedback-btn" onclick="viewAllFeedback('{{ movie }}')" style="margin-top: 20px; background-color: red; color: white;">View All Reviews</button>
+        </div>
+      {% endfor %}
+    </div>
+
+    <script>
+      function setRating(value, movie) {
+        const ratingContainer = document.querySelector(`.movie[data-movie="${movie}"] .rating-container`);
+        const ratingInput = ratingContainer.querySelector('.rating-value');
+        const stars = ratingContainer.querySelectorAll('.star');
+      
+        // Remove active class from all stars
+        stars.forEach(star => star.classList.remove('active'));
+      
+        // Add active class to selected stars
+        for (let i = 0; i < value; i++) {
+          stars[i].classList.add('active');
+        }
+      
+        // Update the value of the hidden input field
+        ratingInput.value = value;
+      }
+      
+      function submitFeedback(movie) {
+        const ratingInput = document.querySelector(`.movie[data-movie="${movie}"] .rating-container .rating-value`);
+        const reviewInput = document.querySelector(`.movie[data-movie="${movie}"] .review-input`);
+        const rating = parseInt(ratingInput.value);
+        const review = reviewInput.value.trim();
+        console.log('Review:', review);
+      
+        const data = JSON.stringify({ movie: movie, rating: rating, review: review });
+        console.log('Data:', data);
+      
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '/submit_feedback');
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                console.log('Feedback submitted successfully for movie:', movie);
+                reviewInput.value = '';
+                alert('Feedback submitted successfully!');
+                location.reload();
+            } else {
+                console.error('Error submitting feedback for movie:', movie, xhr.statusText);
+            }
+        };
+      
+        xhr.send(data);
+      
+        console.log('Submitting feedback for movie:', movie);
+      }
+      function viewAllFeedback(movieName) {
+        // Redirect the user to the view all feedback page for the specified movie name
+        window.location.href = `/view_feedback/${encodeURIComponent(movieName)}`;
+      }
+    </script>
+  </body>
+  </html>
+{% endblock %}
